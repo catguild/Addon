@@ -16,6 +16,7 @@ function ClassicGuildBank:OnInitialize()
 
   ClassicGuildBank:InitializeInboxButton();
   ClassicGuildBank:RegisterEvent('MAIL_SHOW');
+  ClassicGuildBank:Print('catguild version 1.3.1 initialized')
 
 end
 
@@ -207,12 +208,14 @@ function ClassicGuildBank:GetBagItems()
       local texture, count, locked, quality, readable, lootable, link, isFiltered, hasNoValue, itemID = GetContainerItemInfo(container, slot)
 
       if itemID then
-        bagItems[#bagItems + 1] = {                    
-          container = container,
-          slot = slot,
-          itemID = itemID,
-          count = count
-        }
+        if not C_Item.IsBound(ItemLocation:CreateFromBagAndSlot(container, slot)) then
+          bagItems[#bagItems + 1] = {                    
+            container = container,
+            slot = slot,
+            itemID = itemID,
+            count = count
+          }
+        end
       end
     end
   end
